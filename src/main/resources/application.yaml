@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+  datasource:
+    url: ${DB_CONNECTION_STR:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+camunda:
+  bpm:
+    enabled: true
+    admin-user:
+      id: ${CAMUNDA_ADMIN_USERNAME:demo}
+      password: ${CAMUNDA_ADMIN_PASSWORD:demo}
+      email: ${CAMUNDA_ADMIN_EMAIL:something@hotmail.com}
+      first-name: ${CAMUNDA_ADMIN_FIRSTNAME:admin}
+      last-name: ${CAMUNDA_ADMIN_LASTNAME:admin}
+    database:
+      schema-update: true
+    filter:
+      create: All
+    history-level: full
+    auto-deployment-enabled: true
+    default-number-of-retries: 3
+    job-execution:
+      enabled: true
+    webapp:
+      application-path: /

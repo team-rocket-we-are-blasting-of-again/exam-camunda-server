@@ -1,4 +1,4 @@
-FROM openjdk:17-bullseye
+FROM openjdk:8-bullseye
 WORKDIR /app
 COPY target/*.jar /app/application.jar
 
