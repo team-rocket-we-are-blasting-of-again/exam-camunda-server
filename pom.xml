@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.teamrocket</groupId>
     <artifactId>exam-camunda-server</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
@@ -45,8 +45,9 @@
             <artifactId>camunda-spin-dataformat-all</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
