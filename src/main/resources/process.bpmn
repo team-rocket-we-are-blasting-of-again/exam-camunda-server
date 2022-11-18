@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_09ssjdy" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="new_order_creation" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Customer ordes food">
+      <bpmn:outgoing>Flow_0gskkck</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0gskkck" sourceRef="StartEvent_1" targetRef="orderAndPay" />
+    <bpmn:exclusiveGateway id="Gateway_0l4izzj">
+      <bpmn:incoming>Flow_0qnj99t</bpmn:incoming>
+      <bpmn:outgoing>payment_failed</bpmn:outgoing>
+      <bpmn:outgoing>payment_accepted</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0qnj99t" sourceRef="orderAndPay" targetRef="Gateway_0l4izzj" />
+    <bpmn:sequenceFlow id="payment_failed" name="Payment Failed" sourceRef="Gateway_0l4izzj" targetRef="Event_0p2gexd">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{payment_accepted == 'false'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="payment_accepted" name="Payment Accepted" sourceRef="Gateway_0l4izzj" targetRef="Activity_1f7xq7b">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{payment_accepted == 'true'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0p2gexd">
+      <bpmn:incoming>payment_failed</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="orderAndPay" name="Order and Pay" camunda:formKey="camunda-forms:/forms/OrderAndPay.form">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="newOrderRequest" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gskkck</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qnj99t</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0z9wzuz">
+      <bpmn:incoming>Flow_1i4u9xx</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1i4u9xx" sourceRef="Activity_1f7xq7b" targetRef="Event_0z9wzuz" />
+    <bpmn:userTask id="Activity_1f7xq7b" name="1. Create new Pending Order">
+      <bpmn:incoming>payment_accepted</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i4u9xx</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="new_order_creation">
+      <bpmndi:BPMNEdge id="Flow_0gskkck_di" bpmnElement="Flow_0gskkck">
+        <di:waypoint x="198" y="200" />
+        <di:waypoint x="250" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qnj99t_di" bpmnElement="Flow_0qnj99t">
+        <di:waypoint x="350" y="200" />
+        <di:waypoint x="405" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xhgo6r_di" bpmnElement="payment_failed">
+        <di:waypoint x="430" y="175" />
+        <di:waypoint x="430" y="100" />
+        <di:waypoint x="542" y="100" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="415" y="82" width="77" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e22dx6_di" bpmnElement="payment_accepted">
+        <di:waypoint x="430" y="225" />
+        <di:waypoint x="430" y="310" />
+        <di:waypoint x="510" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="431" y="323" width="45" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i4u9xx_di" bpmnElement="Flow_1i4u9xx">
+        <di:waypoint x="610" y="310" />
+        <di:waypoint x="672" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="162" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="141" y="225" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0l4izzj_di" bpmnElement="Gateway_0l4izzj" isMarkerVisible="true">
+        <dc:Bounds x="405" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0p2gexd_di" bpmnElement="Event_0p2gexd">
+        <dc:Bounds x="542" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c9mclj_di" bpmnElement="orderAndPay">
+        <dc:Bounds x="250" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0z9wzuz_di" bpmnElement="Event_0z9wzuz">
+        <dc:Bounds x="672" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0m8padr_di" bpmnElement="Activity_1f7xq7b">
+        <dc:Bounds x="510" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
