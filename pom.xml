@@ -69,13 +69,13 @@
                 <configuration>
                     <mainClass>com.teamrocket.Application</mainClass>
                 </configuration>
-                <executions>
+                <!--<executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
