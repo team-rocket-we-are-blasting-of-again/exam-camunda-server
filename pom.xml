@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.teamrocket</groupId>
     <artifactId>exam-camunda-server</artifactId>
@@ -59,6 +60,8 @@
             <version>1.18.24</version>
         </dependency>
     </dependencies>
+
+    <!-- Build  -->
     <build>
         <plugins>
             <plugin>
@@ -66,6 +69,12 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.teamrocket.Application</mainClass>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -75,6 +84,134 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.4.1</version>
+            </plugin>
+
         </plugins>
     </build>
+
+    <!-- Profiles -->
+    <profiles>
+        <profile>
+            <id>surefire</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.22.2</version>
+                        <executions>
+                            <execution>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <excludes>
+                                        <exclude>none</exclude>
+                                    </excludes>
+                                    <includes>
+                                        <include>**/*IntegrationTest</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>category</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.0.0-M7</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <!--   <groups>com.teamrocket.Template.integration</groups> -->
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- The configuration of the development profile -->
+        <profile>
+            <id>dev</id>
+            <!-- The development profile is active by default -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--
+                    Specifies the build.profile.id property that must be equal than the name of
+                    the directory that contains the profile specific configuration file.
+                    Because the name of the directory that contains the configuration file of the
+                    development profile is dev, we must set the value of the build.profile.id
+                    property to dev.
+                -->
+                <build.profile.id>dev</build.profile.id>
+            </properties>
+        </profile>
+        <!-- The configuration of the production profile -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <!--
+                    Specifies the build.profile.id property that must be equal than the name of
+                    the directory that contains the profile specific configuration file.
+                    Because the name of the directory that contains the configuration file of the
+                    production profile is prod, we must set the value of the build.profile.id
+                    property to prod.
+                -->
+                <build.profile.id>prod</build.profile.id>
+
+            </properties>
+        </profile>
+        <!-- The configuration of the testing profile -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <!--
+                    Specifies the build.profile.id property that must be equal than the name of
+                    the directory that contains the profile specific configuration file.
+                    Because the name of the directory that contains the configuration file of the
+                    testing profile is test, we must set the value of the build.profile.id
+                    property to test.
+                -->
+                <build.profile.id>test</build.profile.id>
+            </properties>
+        </profile>
+    </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.17.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

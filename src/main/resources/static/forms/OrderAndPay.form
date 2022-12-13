@@ -1,0 +1,18 @@
+{
+  "type": "default",
+  "components": [
+    {
+      "key": "newOrderRequest",
+      "label": "New Order Request",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "button4",
+      "label": "Order and Pay",
+      "type": "button"
+    }
+  ]
+}
